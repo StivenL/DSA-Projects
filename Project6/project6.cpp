@@ -11,15 +11,13 @@
 #include <vector>
 #include <list>
 
-using namespace std;
-
 int main() {
-    ifstream inFile;
+    std::ifstream inFile;
     int numVertices, edgeRecords, startingVertex;
     int from, to, weight;
     bool directed;
 
-    inFile.open("graph.txt", ios::in);
+    inFile.open("graph.txt", std::ios::in);
     // Header line
     inFile >> numVertices >> edgeRecords >> startingVertex;
 
@@ -27,10 +25,10 @@ int main() {
     Graph graph = Graph(numVertices);
 
     // Populate adjacency list
-    while (inFile >> from >> to >> weight >> boolalpha >> directed) {
+    while (inFile >> from >> to >> weight >> std::boolalpha >> directed) {
         graph.addEdge(from, to, weight, directed);
     }
-    cout << endl;
+    std::cout << std::endl;
 
     // Find the shortest path
     graph.DijkstraPaths(startingVertex);

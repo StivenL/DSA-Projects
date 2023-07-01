@@ -10,25 +10,24 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-using namespace std;
 
 int main() {
     srand(1000);
 
     bool found = false;
-    ifstream inFile;
+    std::ifstream inFile;
 
     Maze maze = Maze(inFile);
 
     maze.Print();
     Coordinate start = maze.GetStartPt();
-    cout << "Starting Position: " << start.x << "," << start.y << endl;
+    std::cout << "Starting Position: " << start.x << "," << start.y << std::endl;
 
     maze.FindExit(start.x, start.y, found);
 
     if (found) {
-        cout << "Exit Found" << endl;
+        std::cout << "Exit Found" << std::endl;
     } else {
-        cout << "No Exit" << endl;
+        std::cout << "No Exit" << std::endl;
     }
 }

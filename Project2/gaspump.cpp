@@ -1,7 +1,7 @@
 #include "gaspump.h"
 
 // Assigns the given parameters for each GasPump object
-GasPump::GasPump(string type, double price) {
+GasPump::GasPump(std::string type, double price) {
     gasType = type;
     pricePerGallon = price;
 }

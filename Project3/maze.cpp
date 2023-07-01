@@ -5,17 +5,16 @@
 
 #include "maze.h"
 #include <iostream>
-using namespace std;
 
 // Reads an input file, checks for valid maze dimensions, and creates a maze
-Maze::Maze(ifstream& inFile) {
+Maze::Maze(std::ifstream& inFile) {
     inFile.open("maze.txt");
     Coordinate coord(0, 0);
 
     inFile >> maxRows >> maxCols;
 
     if ((maxRows < 2 || maxCols < 2) || (maxRows > 8 || maxCols > 8)) {
-        cout << "Invalid dimensions." << endl;
+        std::cout << "Invalid dimensions." << std::endl;
         exit(0);
     }
 
@@ -41,11 +40,11 @@ Maze::Maze(ifstream& inFile) {
 
 // Outputs the current state of the maze
 void Maze::Print() {
-    cout << "Maze State:" << endl;
+    std::cout << "Maze State:" << std::endl;
     for (int x = 1; x <= maxRows; x++) {
             for (int y = 1; y <= maxCols; y++)
-                cout << maze[x][y] << " ";
-            cout << endl;
+                std::cout << maze[x][y] << " ";
+            std::cout << std::endl;
     }
 }
 
@@ -62,10 +61,10 @@ void Maze::FindExit(int row, int col, bool &found) {
     char west = col+1;
 
     if (maze[row][col] == 'E') {
-        cout << "Trying " << row << "," << col << endl;
+        std::cout << "Trying " << row << "," << col << std::endl;
         found = true;
     } else if (maze[row][col] == 'O') {
-        cout << "Trying " << row << "," << col << endl;
+        std::cout << "Trying " << row << "," << col << std::endl;
         maze[row][col] = '*';
         Print();
         FindExit(south, col, found);

@@ -10,8 +10,6 @@
 #include <set>
 #include <list>
 
-using namespace std;
-
 // Parameterized constructor
 Graph::Graph(int numV) {
     numVertices = numV;
@@ -20,10 +18,10 @@ Graph::Graph(int numV) {
 // Adds edges to the adjacency list, adjacent
 void Graph::addEdge(int from, int to, double weight, bool directed) {    
     if (directed) {
-        cout << "Edge " << from << ", " << to << ", " << weight << endl;
+        std::cout << "Edge " << from << ", " << to << ", " << weight << std::endl;
         Endpoint ep(to, weight);
         if (adjacent.size() == from) {
-            list<Endpoint> epList;
+            std::list<Endpoint> epList;
             epList.push_back(ep);
             adjacent.push_back(epList);
         } else {
@@ -33,22 +31,22 @@ void Graph::addEdge(int from, int to, double weight, bool directed) {
         Endpoint ep(to, weight);
         Endpoint np(from, weight);
         if (adjacent.size() == from) {
-            cout << "Edge " << from << ", " << to << ", " << weight << endl;
-            list<Endpoint> epList;
+            std::cout << "Edge " << from << ", " << to << ", " << weight << std::endl;
+            std::list<Endpoint> epList;
             epList.push_back(ep);
             adjacent.push_back(epList);
         } else {
-            cout << "Edge " << from << ", " << to << ", " << weight << endl;
+            std::cout << "Edge " << from << ", " << to << ", " << weight << std::endl;
             adjacent[from].push_back(ep);
         }
 
         if (adjacent.size() == to) {
-            cout << "Edge " << to << ", " << from << ", " << weight << endl;
-            list<Endpoint> epList;
+            std::cout << "Edge " << to << ", " << from << ", " << weight << std::endl;
+            std::list<Endpoint> epList;
             epList.push_back(np);
             adjacent.push_back(epList);
         } else {
-            cout << "Edge " << to << ", " << from << ", " << weight << endl;
+            std::cout << "Edge " << to << ", " << from << ", " << weight << std::endl;
             adjacent[to].push_back(np);
         }
     }
@@ -58,7 +56,7 @@ void Graph::addEdge(int from, int to, double weight, bool directed) {
 void Graph::DijkstraPaths(int startingVertex) {
     double inf = std::numeric_limits<double>::infinity();
 
-    vector<PathNode> shortestPath;
+    std::vector<PathNode> shortestPath;
 
     for (int i = 0; i < adjacent.size(); i++) {
         PathNode node;
@@ -69,8 +67,8 @@ void Graph::DijkstraPaths(int startingVertex) {
 
     shortestPath[startingVertex].cost = 0;
 
-    set<pair<int, int>> path;
-    path.insert(make_pair(shortestPath[startingVertex].cost, startingVertex));
+    std::set<std::pair<int, int>> path;
+    path.insert(std::make_pair(shortestPath[startingVertex].cost, startingVertex));
 
     while (!path.empty()) {
         int u = path.begin()->second;
@@ -85,10 +83,10 @@ void Graph::DijkstraPaths(int startingVertex) {
         }
     }
 
-    cout << "Shortest paths: " << endl;
+    std::cout << "Shortest paths: " << std::endl;
     int i = 0;
     for (auto node: shortestPath) {
-        cout << i << " cost: " << node.cost << "    prev: " << node.prev << endl;
+        std::cout << i << " cost: " << node.cost << "    prev: " << node.prev << std::endl;
         i++;
     }
 }

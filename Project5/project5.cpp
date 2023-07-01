@@ -10,26 +10,25 @@
 #include <iterator>
 #include <iomanip>
 #include <iostream>
-using namespace std;
 
 int main() {
     char ch;
-    ifstream inFile;
-    map<char, int> charMap;
+    std::ifstream inFile;
+    std::map<char, int> charMap;
 
     HuffmanTree* huffTree = new HuffmanTree();
 
-    inFile.open("input.txt", ios::in);
-    cout << "Input text file: ";
-    while (inFile >> noskipws >> ch) {
-        cout << ch;
+    inFile.open("input.txt", std::ios::in);
+    std::cout << "Input text file: ";
+    while (inFile >> std::noskipws >> ch) {
+        std::cout << ch;
         if (charMap.find(ch) != charMap.end()) {
             charMap[ch]++;
         } else {
-            charMap.insert(make_pair(ch, 1));
+            charMap.insert(std::make_pair(ch, 1));
         }
     }
-    cout << endl;
+    std::cout << std::endl;
 
     huffTree->populatePriorityQueue(charMap);
     huffTree->generateHuffmanTree();

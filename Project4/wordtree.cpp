@@ -5,7 +5,6 @@
 
 #include "wordtree.h"
 #include <iostream>
-using namespace std;
 
 // Constructor
 WordTree::WordTree() {
@@ -18,11 +17,11 @@ WordTree::~WordTree() {
 }
 
 // Iteratively searches the word tree for the given word string
-void WordTree::findWord(string word) {
+void WordTree::findWord(std::string word) {
     TreeNode* temp = root;
     while (temp != NULL) {
         if (temp->value == word) {
-            cout << "The word '" << word << "' occurs " << temp->count << " time(s) in the text." << '\n' << endl;
+            std::cout << "The word '" << word << "' occurs " << temp->count << " time(s) in the text." << '\n' << std::endl;
             return;
         } else if (temp->value < word) {
             temp = temp->right;
@@ -30,17 +29,17 @@ void WordTree::findWord(string word) {
             temp = temp->left;
         }
     }
-    cout << "The word " << word << " was not found in the text." << endl;
+    std::cout << "The word " << word << " was not found in the text." << std::endl;
 }
 
 // Recursively adds a word to the word tree
-void WordTree::addWord(string word) {
+void WordTree::addWord(std::string word) {
     for (auto& ch: word)
         ch = tolower(ch);
     _addWord(root, word);
 }
 
-void WordTree::_addWord(TreeNode*& node, string word) {
+void WordTree::_addWord(TreeNode*& node, std::string word) {
     if (node == NULL) {
         node = new TreeNode();
         node->value = word;
@@ -69,14 +68,14 @@ void WordTree::_addWord(TreeNode*& node, string word) {
 void WordTree::getCounts(int threshold) {
     int count = 0;
     _getCounts(root, threshold, count);
-    cout << count << " node(s) had words with " << threshold << " or more occurence(s)." << '\n' << endl;
+    std::cout << count << " node(s) had words with " << threshold << " or more occurence(s)." << '\n' << std::endl;
 }
 
 void WordTree::_getCounts(TreeNode* node, int threshold, int& count) const {
     if (node != NULL) {
         _getCounts(node->left, threshold, count);
         if (node->count >= threshold) {
-            cout << node->value << "(" << node->count << ")" << endl;
+            std::cout << node->value << "(" << node->count << ")" << std::endl;
             count++;
         }
         _getCounts(node->right, threshold, count);

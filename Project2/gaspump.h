@@ -3,18 +3,17 @@
 
 #include <string>
 #include <iostream>
-using namespace std;
 
 class GasPump {
     private:
-        string gasType;
+        std::string gasType;
         double pricePerGallon;
         double totalFuel;
         double totalAmt;
     public:
-        GasPump(string type, double price);
+        GasPump(std::string type, double price);
 
-        string returnType() {
+        std::string returnType() {
             return gasType;
         }
 

@@ -8,7 +8,6 @@
 #include <iterator>
 #include <iomanip>
 #include <iostream>
-using namespace std;
 
 // Constructs empty HuffmanTree
 HuffmanTree::HuffmanTree() {
@@ -31,7 +30,7 @@ void HuffmanTree::_deleteSubTree(Node* node) {
 
 // Populates the priority queue given a map
 // of characters and their frequencies
-void HuffmanTree::populatePriorityQueue(map<char, int> charMap) {
+void HuffmanTree::populatePriorityQueue(std::map<char, int> charMap) {
     for (auto item : charMap) {
         Node* newNode = new Node(item.first, item.second);
         pqueue.push(newNode);
@@ -65,13 +64,13 @@ void HuffmanTree::generateHuffmanTree() {
 
 // Prints the characters and codes in the Huffman tree
 void HuffmanTree::printHuffmanCodes() {
-    string code = "";
-    cout << "Character " << setw(20) << " Huffman Codes" << endl;
+    std::string code = "";
+    std::cout << "Character " << std::setw(20) << " Huffman Codes" << std::endl;
     _printHuffmanCodes(root, code);
 }
 
 // Recursive helper function to traverse Huffman tree
-void HuffmanTree::_printHuffmanCodes(Node* node, string code) {
+void HuffmanTree::_printHuffmanCodes(Node* node, std::string code) {
     if (node->left) {
         _printHuffmanCodes(node->left, code+"0");
     }
@@ -79,6 +78,6 @@ void HuffmanTree::_printHuffmanCodes(Node* node, string code) {
         _printHuffmanCodes(node->right, code+"1");
     }
     if (!node->left && !node->right) {
-        cout << setw(17) << node->character << left << code << endl;
+        std::cout << std::setw(17) << node->character << std::left << code << std::endl;
     }
 }

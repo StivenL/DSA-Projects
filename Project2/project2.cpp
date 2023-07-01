@@ -10,21 +10,20 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-using namespace std;
 
 //  Variable Declarations
 int seed = 0;
 int numOfCars = 0;
 const int SIZE = 3;
 
-string gasType;
+std::string gasType;
 double pricePerGallon;
 
 int main() {
     
     //  Open the input file
-    ifstream inFile;
-    inFile.open("gas.txt", ios::in);
+    std::ifstream inFile;
+    inFile.open("gas.txt", std::ios::in);
 
     inFile >> seed >> numOfCars;
 
@@ -38,8 +37,8 @@ int main() {
     // Set random seed
     srand(seed);
 
-    cout << fixed;
-    cout.precision(2);
+    std::cout << std::fixed;
+    std::cout.precision(2);
 
     // Determine which gasPump to use, how much gas to purchase, and how many gallons were pumped
     for (int i = 1; i < numOfCars+1; i++) {
@@ -47,11 +46,11 @@ int main() {
         double amt = ((rand() % 6) * 5) + 25;
         double gallons = pump[index]->dispenseFuel(amt); // ^^^ that shit
 
-        cout << i << " " << pump[index]->returnType() << " " << pump[index]->returnPrice() << " " << amt << " " << gallons << endl;
+        std::cout << i << " " << pump[index]->returnType() << " " << pump[index]->returnPrice() << " " << amt << " " << gallons << std::endl;
     }
 
     for (int i = 0; i < SIZE; i++) {
-        cout << pump[i]->returnType() << " " << pump[i]->returnTotalFuel() << " " << pump[i]->returnTotalAmt() << endl;
+        std::cout << pump[i]->returnType() << " " << pump[i]->returnTotalFuel() << " " << pump[i]->returnTotalAmt() << std::endl;
     }
 
     // Close the input file
