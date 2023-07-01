@@ -1,0 +1,105 @@
+Script started on 2022-05-24 18:53:16+00:00 [TERM="xterm-256color" TTY="/dev/pts/5" COLUMNS="162" LINES="24"]
+(base) jovyan@jupyter-sgl2y:~/Projects/Project1$ catt-noproject1.cpp project1
+     1	//  Stiven LaVrenov
+     2	//  CSCI 3110-001
+     3	//  Project #1
+     4	//  Due: 05/24/22
+     5
+     6	//  This program will read from a nums.txt file, dynamically allocate memory
+     7	//  and calculate the average of the given array at the size increase intervals
+     8
+     9	#include <fstream>
+    10	#include <iostream>
+    11	using namespace std;
+    12
+    13	int num;
+    14	int size = 0;
+    15	int count = 0;
+    16	double increase = 1.0;
+    17
+    18	//  This function will create a new dynamic array if one doesn't already exist
+    19	//  and increase the size of the array by a given increase value
+    20	int *allocateArray(int *numArray, int *size, double increase) {
+    21	    if (numArray == NULL) {
+    22		numArray = new int[*size];
+    23	    } else {
+    24		int newSize = *size * increase;
+    25
+    26		int *tempArray = new int[newSize];
+    27
+    28		for (int i = 0; i < newSize; i++)
+    29		    tempArray[i] = numArray[i];
+    30
+    31		*size = newSize;
+    32		delete [] numArray;
+    33		numArray = tempArray;
+    34	    }
+    35
+    36	    return numArray;
+    37	}
+    38
+    39	//  This function will calculate the average for all numbers in numArray
+    40	double calcAvg(int *numArray, int count) {
+    41	    float sum = 0.0;
+    42	    double avg = 0.0;
+    43
+    44	    for (int i = 0; i < size; i++) {
+    45		sum += numArray[i];
+    46	    }
+    47	    avg = sum / count;
+    48	    return avg;
+    49	}
+    50
+    51	int main() {
+    52	    ifstream inFile;	// Create input file
+    53	    ofstream outFile;	// Create output file
+    54
+    55	    inFile.open("nums.txt", ios::in);
+    56	    outFile.open("out.txt", ios::out);
+    57
+    58	    inFile >> size >> increase;
+    59	    increase++; 	// easier multiplication for sizing
+    60
+    61	    // size validation | 100 =< size =< 350
+    62	    if ((size < 100 || size > 350) || size % 50 != 0) {
+    63		cout << "Error" << endl;
+    64		exit(0);
+    65	    }
+    66
+    67	    int *numArray = NULL;
+    68	    numArray = allocateArray(numArray, &size, increase);
+    69
+    70	    cout << size << endl;
+    71	    outFile << size << endl;
+    72	    while (!inFile.eof()) {
+    73		inFile >> num;
+    74		numArray[count] = num;
+    75		count++;
+    76		if (count == size) {
+    77		    cout << size << " " << calcAvg(numArray, count) << endl;
+    78		    outFile << size << " " << calcAvg(numArray, count) << endl;
+    79		    numArray = allocateArray(numArray, &size, increase);
+    80		}
+    81	    }
+    82
+    83	    cout << size << " " << count << " " << calcAvg(numArray, count) << endl;
+    84	    outFile << size << " " << count << " " << calcAvg(numArray, count) << endl;
+    85
+    86	    inFile.close();
+    87	    outFile.close();
+    88
+    89	    delete [] numArray;
+    90	    return 0;
+    91	}(base) jovyan@jupyter-sgl2y:~/Projects/Project1$ g++rproject1.cppc-o project1
+(base) jovyan@jupyter-sgl2y:~/Projects/Project1$ ./project1ject1.cpp project1
+200
+200 301.075
+250 335.604
+312 350.266
+390 285.554
+487 234.848
+608 585 252.32
+(base) jovyan@jupyter-sgl2y:~/Projects/Project1$ exit-noproject1.cpp project1
+exit
+
+Script done on 2022-05-24 18:53:23+00:00 [COMMAND_EXIT_CODE="0"]

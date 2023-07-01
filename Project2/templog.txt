@@ -1,0 +1,149 @@
+Script started on 2022-06-01 21:07:31+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="127" LINES="24"]
+(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ cat -n gaspump.h
+     1	#ifndef GASPUMP_H
+     2	#define GASPUMP_H
+     3	
+     4	#include <string>
+     5	#include <iostream>
+     6	using namespace std;
+     7	
+     8	class GasPump {
+     9	    private:
+    10	        string gasType;
+    11	        double pricePerGallon;
+    12	        double totalFuel;
+    13	        double totalAmt;
+    14	    public:
+    15	        GasPump(string type, double price);
+    16	
+    17	        string returnType() {
+    18	            return gasType;
+    19	        }
+    20	
+    21	        double returnPrice() {
+    22	            return pricePerGallon;
+    23	        }
+    24	
+    25	        double returnTotalFuel() {
+    26	            return totalFuel;
+    27	        }
+    28	
+    29	        double returnTotalAmt() {
+    30	            return totalAmt;
+    31	        }
+    32	
+    33	        double dispenseFuel(double amt);
+    34	};
+    35	
+    36	#endif(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ cat -n gaspump.h[Kcpp
+     1	#include "gaspump.h"
+     2	
+     3	// Assigns the given parameters for each GasPump object
+     4	GasPump::GasPump(string type, double price) {
+     5	    gasType = type;
+     6	    pricePerGallon = price;
+     7	}
+     8	
+     9	// Calculates how many gallons were purchased
+    10	double GasPump::dispenseFuel(double amt) {
+    11	    double gallons = amt / pricePerGallon;
+    12	
+    13	    totalFuel += gallons;
+    14	    totalAmt += amt;
+    15	
+    16	    return gallons;
+    17	}(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ cat -n gaspump.cpp[K[K[K[K[K[K[K[K[K[K[Kpri[Koject2.cpp 
+     1	//  Stiven LaVrenov
+     2	//  CSCI 3110-001
+     3	//  Project #2
+     4	//  Due: 06/07/2022
+     5	
+     6	//  This program will calculate and output gas given to vehicles
+     7	//  based on gas type and the amount of gas purchased
+     8	
+     9	#include "gaspump.h"
+    10	#include <cstdlib>
+    11	#include <fstream>
+    12	#include <iostream>
+    13	using namespace std;
+    14	
+    15	//  Variable Declarations
+    16	int seed = 0;
+    17	int numOfCars = 0;
+    18	const int SIZE = 3;
+    19	
+    20	string gasType;
+    21	double pricePerGallon;
+    22	
+    23	int main() {
+    24	    
+    25	    //  Open the input file
+    26	    ifstream inFile;
+    27	    inFile.open("gas.txt", ios::in);
+    28	
+    29	    inFile >> seed >> numOfCars;
+    30	
+    31	    // Initialize a pointer array for the GasPump class and instantiate each gas type
+    32	    GasPump* pump[SIZE];
+    33	    for (int i = 0; i < SIZE; i++) {
+    34	        inFile >> gasType >> pricePerGallon;
+    35	        pump[i] = new GasPump(gasType, pricePerGallon);
+    36	    }
+    37	
+    38	    // Set random seed
+    39	    srand(seed);
+    40	
+    41	    cout << fixed;
+    42	    cout.precision(2);
+    43	
+    44	    // Determine which gasPump to use, how much gas to purchase, and how many gallons were pumped
+    45	    for (int i = 1; i < numOfCars+1; i++) {
+    46	        int index = rand() % 3;
+    47	        double amt = ((rand() % 6) * 5) + 25;
+    48	        double gallons = pump[index]->dispenseFuel(amt); // ^^^ that shit
+    49	
+    50	        cout << i << " " << pump[index]->returnType() << " " << pump[index]->returnPrice() << " " << amt << " " << gallons << endl;
+    51	    }
+    52	
+    53	    for (int i = 0; i < SIZE; i++) {
+    54	        cout << pump[i]->returnType() << " " << pump[i]->returnTotalFuel() << " " << pump[i]->returnTotalAmt() << endl;
+    55	    }
+    56	
+    57	    // Close the input file
+    58	    inFile.close();
+    59	
+    60	    return 0;
+    61	}(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ g++ -std=c++11 gaspump.cpp project2.cpp -o project2
+(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ ./2[Kproject2 
+1 Midgrade 2.50 40.00 16.00
+2 Midgrade 2.50 35.00 14.00
+3 Unleaded 2.25 45.00 20.00
+4 Unleaded 2.25 25.00 11.11
+5 Premium+ 2.75 25.00 9.09
+6 Midgrade 2.50 35.00 14.00
+7 Unleaded 2.25 45.00 20.00
+8 Unleaded 2.25 35.00 15.56
+9 Premium+ 2.75 35.00 12.73
+10 Premium+ 2.75 40.00 14.55
+11 Midgrade 2.50 30.00 12.00
+12 Unleaded 2.25 50.00 22.22
+13 Premium+ 2.75 50.00 18.18
+14 Unleaded 2.25 40.00 17.78
+15 Premium+ 2.75 35.00 12.73
+16 Unleaded 2.25 35.00 15.56
+17 Premium+ 2.75 45.00 16.36
+18 Midgrade 2.50 25.00 10.00
+19 Midgrade 2.50 30.00 12.00
+20 Premium+ 2.75 45.00 16.36
+21 Premium+ 2.75 45.00 16.36
+22 Midgrade 2.50 35.00 14.00
+23 Premium+ 2.75 45.00 16.36
+24 Premium+ 2.75 35.00 12.73
+25 Unleaded 2.25 30.00 13.33
+Unleaded 135.56 305.00
+Midgrade 92.00 230.00
+Premium+ 145.45 400.00
+(base) ]0;jovyan@jupyter-sgl2y: ~/Projects/Project2[01;32mjovyan@jupyter-sgl2y[00m:[01;34m~/Projects/Project2[00m$ exit
+exit
+
+Script done on 2022-06-01 21:08:13+00:00 [COMMAND_EXIT_CODE="0"]
